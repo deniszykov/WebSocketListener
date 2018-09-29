@@ -5,7 +5,7 @@ namespace vtortola.WebSockets.Tools
 {
     internal sealed class ReflectionHelper
     {
-        public static bool IsDynamicCompilationSupported;
+        public static readonly bool IsDynamicCompilationSupported;
 
         static ReflectionHelper()
         {

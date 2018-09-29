@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
-
+using JetBrains.Annotations;
 
 namespace vtortola.WebSockets
 {
     public static class CookieParser
     {
-        public static IEnumerable<Cookie> Parse(string cookieString)
+        public static IEnumerable<Cookie> Parse([CanBeNull] string cookieString)
         {
             if (string.IsNullOrWhiteSpace(cookieString))
                 yield break;

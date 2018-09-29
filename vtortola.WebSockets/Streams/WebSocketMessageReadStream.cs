@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,6 +11,7 @@ namespace vtortola.WebSockets
         public sealed override bool CanRead => true;
 
         /// <inheritdoc />
+        [Obsolete("Writing to the read stream is not allowed", true)]
         public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             throw new NotSupportedException();

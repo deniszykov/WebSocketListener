@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace vtortola.WebSockets
 {
@@ -10,7 +11,8 @@ namespace vtortola.WebSockets
     {
         private static readonly UTF8Encoding Utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: false);
 
-        public static async Task<string> ReadStringAsync(this WebSocket webSocket, CancellationToken cancellationToken = default(CancellationToken))
+        [NotNull, ItemCanBeNull]
+        public static async Task<string> ReadStringAsync([NotNull] this WebSocket webSocket, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (webSocket == null) throw new ArgumentNullException(nameof(webSocket));
 
@@ -23,7 +25,8 @@ namespace vtortola.WebSockets
                     return await reader.ReadToEndAsync().ConfigureAwait(false);
             }
         }
-        public static async Task WriteStringAsync(this WebSocket webSocket, string data, CancellationToken cancellationToken = default(CancellationToken))
+
+        public static async Task WriteStringAsync([NotNull] this WebSocket webSocket, [NotNull] string data, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (webSocket == null) throw new ArgumentNullException(nameof(webSocket));
             if (data == null) throw new ArgumentNullException(nameof(data));

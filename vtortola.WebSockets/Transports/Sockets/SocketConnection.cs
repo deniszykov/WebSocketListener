@@ -42,12 +42,10 @@ namespace vtortola.WebSockets.Transports.Sockets
         public override EndPoint LocalEndPoint { get; }
         /// <inheritdoc />
         public override EndPoint RemoteEndPoint { get; }
-        /// <inheritdoc />
-        public virtual bool ReuseSocketOnClose { get; set; }
 
         public bool IsClosed => this.closeState >= STATE_CLOSING;
 
-        public SocketConnection(Socket socket, EndPoint originalRemoteEndPoint = null)
+        public SocketConnection(Socket socket)
         {
 #pragma warning disable 168 // unused local variable
             if (socket == null) throw new ArgumentNullException(nameof(socket));
@@ -68,8 +66,7 @@ namespace vtortola.WebSockets.Transports.Sockets
 #if DEBUG
                 System.Diagnostics.Debug.WriteLine($"An error occurred while trying to get '{nameof(socket.RemoteEndPoint)}' property of established connection." + getRemoteEndPointError.Unwrap());
 #endif
-
-                this.RemoteEndPoint = originalRemoteEndPoint = BrokenEndPoint;
+                this.RemoteEndPoint = BrokenEndPoint;
             }
 
             this.socket = socket;
@@ -137,7 +134,7 @@ namespace vtortola.WebSockets.Transports.Sockets
             }
             catch (Exception sendError) when (sendError.Unwrap() is ThreadAbortException == false)
             {
-                sendCompletionSource.TrySetException(sendError);
+                throw new InvalidOperationException($"Unable to send buffer with {count} elements", sendError);
             }
 
             return sendCompletionSource.Task;
@@ -148,6 +145,7 @@ namespace vtortola.WebSockets.Transports.Sockets
         {
             if (cancellationToken.IsCancellationRequested)
                 return TaskHelper.CanceledTask;
+
             return TaskHelper.CompletedTask;
         }
 
@@ -263,12 +261,13 @@ namespace vtortola.WebSockets.Transports.Sockets
             }
         }
 
-        protected void ThrowIfClosed()
+        private void ThrowIfClosed()
         {
             if (this.IsClosed)
                 throw new InvalidOperationException("Connection is closed and can't perform any IO operations.");
         }
-        protected void ThrowIfDisposed()
+
+        private void ThrowIfDisposed()
         {
             if (this.closeState >= STATE_DISPOSED)
                 throw new ObjectDisposedException(this.GetType().Name);

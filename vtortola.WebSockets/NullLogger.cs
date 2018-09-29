@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Copyright (c) 2017 Denis Zykov
 	License: https://opensource.org/licenses/MIT
 */
@@ -8,7 +8,7 @@ namespace vtortola.WebSockets
 {
     public sealed class NullLogger : ILogger
     {
-        public static NullLogger Instance = new NullLogger();
+        public static readonly NullLogger Instance = new NullLogger();
 
         /// <inheritdoc />
         public bool IsDebugEnabled => false;

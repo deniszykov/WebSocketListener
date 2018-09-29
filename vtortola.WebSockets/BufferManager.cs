@@ -1,13 +1,15 @@
-﻿/*
+/*
 	Copyright (c) 2017 Denis Zykov
 	License: https://opensource.org/licenses/MIT
 */
 using System;
+using JetBrains.Annotations;
 
 namespace vtortola.WebSockets
 {
     public abstract class BufferManager
     {
+        [Obsolete("Is not used")]
         public abstract int SmallBufferSize { get; }
         public abstract int LargeBufferSize { get; }
 
@@ -45,6 +47,7 @@ namespace vtortola.WebSockets
         /// <returns>Returns a System.ServiceModel.Channels.BufferManager object with the specified parameters.</returns>
         /// <exception cref="System.InsufficientMemoryException">In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, System.OutOfMemoryException, instead.There was insufficient memory to create the requested buffer pool.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException"> maxBufferPoolSize or maxBufferSize was less than zero.</exception>
+        [NotNull]
         public static BufferManager CreateBufferManager(int smallBufferSize, int smallBufferPoolSize, int largeBufferSize, int largeBufferPoolSize)
         {
             if (smallBufferSize < 0) throw new ArgumentOutOfRangeException(nameof(smallBufferSize));
@@ -58,6 +61,7 @@ namespace vtortola.WebSockets
         /// <summary>
         /// Releases the buffers currently cached in the manager.
         /// </summary>
+        [Obsolete("Is not used")]
         public abstract void Clear();
 
         /// <summary>

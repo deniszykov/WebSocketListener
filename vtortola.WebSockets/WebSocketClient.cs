@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Copyright (c) 2017 Denis Zykov
 	License: https://opensource.org/licenses/MIT
 */
@@ -12,6 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using vtortola.WebSockets.Async;
 using vtortola.WebSockets.Extensibility;
 using vtortola.WebSockets.Http;
@@ -20,6 +21,7 @@ using vtortola.WebSockets.Transports;
 
 namespace vtortola.WebSockets
 {
+    [PublicAPI]
     public sealed class WebSocketClient
     {
         private const string WEB_SOCKET_HTTP_VERSION = "HTTP/1.1";
@@ -34,7 +36,7 @@ namespace vtortola.WebSockets
 
         public bool HasPendingRequests => this.pendingRequests.IsEmpty == false;
 
-        public WebSocketClient(WebSocketListenerOptions options)
+        public WebSocketClient([NotNull] WebSocketListenerOptions options)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));
             if (options.Standards.Count == 0) throw new ArgumentException("Empty list of WebSocket standards.", nameof(options));
@@ -72,12 +74,12 @@ namespace vtortola.WebSockets
         }
 
 
-        public Task<WebSocket> ConnectAsync(Uri address, CancellationToken cancellation = default(CancellationToken))
+        public Task<WebSocket> ConnectAsync([NotNull] Uri address, CancellationToken cancellation = default(CancellationToken))
         {
             return this.ConnectAsync(address, null, cancellation);
         }
 
-        public async Task<WebSocket> ConnectAsync(Uri address, Headers<RequestHeader> requestHeaders = null, CancellationToken cancellation = default(CancellationToken))
+        public async Task<WebSocket> ConnectAsync([NotNull] Uri address, Headers<RequestHeader> requestHeaders = null, CancellationToken cancellation = default(CancellationToken))
         {
             try
             {

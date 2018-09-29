@@ -7,12 +7,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using JetBrains.Annotations;
 
 namespace vtortola.WebSockets.Tools
 {
     internal static class HeadersHelper
     {
-        public static IEnumerable<KeyValuePair<string, string>> SplitAndTrimKeyValue(string valueString, char valuesSeparator = ';', char nameValueSeparator = '=', StringSplitOptions options = StringSplitOptions.None)
+        public static IEnumerable<KeyValuePair<string, string>> SplitAndTrimKeyValue([CanBeNull] string valueString, char valuesSeparator = ';', char nameValueSeparator = '=', StringSplitOptions options = StringSplitOptions.None)
         {
             if (valueString == null)
                 yield break;
@@ -55,7 +56,7 @@ namespace vtortola.WebSockets.Tools
             } while (startIndex < valueString.Length);
         }
         
-        public static void TrimInPlace(string value, ref int startIndex, ref int length)
+        public static void TrimInPlace([NotNull] string value, ref int startIndex, ref int length)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
             if (startIndex < 0 || startIndex > value.Length) throw new ArgumentOutOfRangeException(nameof(startIndex));

@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Copyright (c) 2017 Denis Zykov
 	License: https://opensource.org/licenses/MIT
 */
@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Security;
 using System.Threading;
+using JetBrains.Annotations;
 using vtortola.WebSockets.Tools;
 
 // disable Warning	"a reference to a volatile field will not be treated as volatile"
@@ -20,20 +21,18 @@ namespace vtortola.WebSockets.Async
         {
             private readonly AsyncConditionSource conditionSource;
 
-            public Awaiter(AsyncConditionSource condition)
+            public Awaiter([NotNull] AsyncConditionSource condition)
             {
                 if (condition == null) throw new ArgumentNullException(nameof(condition), "condition != null");
 
                 this.conditionSource = condition;
             }
 
-            public bool IsCompleted => this.conditionSource != null && this.conditionSource.IsSet;
+            public bool IsCompleted => this.conditionSource.IsSet;
 
             [SecuritySafeCritical]
             public void OnCompleted(Action continuation)
             {
-                if (this.conditionSource == null) throw new InvalidOperationException();
-
                 if (this.IsCompleted)
                 {
                     DelegateHelper.QueueContinuation(continuation, this.conditionSource.ContinueOnCapturedContext, this.conditionSource.Schedule);
@@ -48,8 +47,6 @@ namespace vtortola.WebSockets.Async
             [SecurityCritical]
             public void UnsafeOnCompleted(Action continuation)
             {
-                if (this.conditionSource == null) throw new InvalidOperationException();
-
                 if (this.IsCompleted)
                 {
                     DelegateHelper.UnsafeQueueContinuation(continuation, this.conditionSource.ContinueOnCapturedContext, this.conditionSource.Schedule);
@@ -72,9 +69,7 @@ namespace vtortola.WebSockets.Async
 
         private Action safeContinuation;
         private Action unsafeContinuation;
-
-        public AsyncConditionVariable Condition => new AsyncConditionVariable(this);
-
+        
         public bool ContinueOnCapturedContext { get; set; }
         public bool Schedule { get; set; }
 

@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using vtortola.WebSockets.Tools;
 using vtortola.WebSockets.Transports;
 
@@ -44,7 +45,7 @@ namespace vtortola.WebSockets.Rfc6455
             }
         }
 
-        public WebSocketConnectionRfc6455(NetworkConnection networkConnection, bool maskData, WebSocketListenerOptions options)
+        public WebSocketConnectionRfc6455([NotNull] NetworkConnection networkConnection, bool maskData, [NotNull] WebSocketListenerOptions options)
         {
             if (networkConnection == null) throw new ArgumentNullException(nameof(networkConnection));
             if (options == null) throw new ArgumentNullException(nameof(options));
@@ -229,11 +230,13 @@ namespace vtortola.WebSockets.Rfc6455
 
             return new ArraySegment<byte>(payload.Array, payload.Offset - header.HeaderLength, length + header.HeaderLength);
         }
+
         public Task<bool> SendFrameAsync(ArraySegment<byte> frame, CancellationToken cancellation)
         {
             return this.SendFrameAsync(frame, Timeout.InfiniteTimeSpan, SendOptions.None, cancellation);
         }
-        public async Task<bool> SendFrameAsync(ArraySegment<byte> frame, TimeSpan timeout, SendOptions sendOptions, CancellationToken cancellation)
+
+        private async Task<bool> SendFrameAsync(ArraySegment<byte> frame, TimeSpan timeout, SendOptions sendOptions, CancellationToken cancellation)
         {
             var noLock = (sendOptions & SendOptions.NoLock) == SendOptions.NoLock;
             var noError = (sendOptions & SendOptions.NoErrors) == SendOptions.NoErrors;
@@ -245,8 +248,8 @@ namespace vtortola.WebSockets.Rfc6455
                 {
                     if (noError)
                         return false;
-                    else
-                        throw new WebSocketException("WebSocket connection is closed.");
+
+                    throw new WebSocketException("WebSocket connection is closed.");
                 }
 
                 var lockTaken = noLock || await this.writeSemaphore.WaitAsync(timeout, cancellation).ConfigureAwait(false);
@@ -256,8 +259,8 @@ namespace vtortola.WebSockets.Rfc6455
                     {
                         if (noError)
                             return false;
-                        else
-                            throw new WebSocketException($"Write operation lock timeout ({timeout.TotalMilliseconds:F2}ms).");
+
+                        throw new WebSocketException($"Write operation lock timeout ({timeout.TotalMilliseconds:F2}ms).");
                     }
 
                     await this.networkConnection.WriteAsync(frame.Array, frame.Offset, frame.Count, cancellation).ConfigureAwait(false);
