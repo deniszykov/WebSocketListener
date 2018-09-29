@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace vtortola.WebSockets
 {
@@ -8,11 +9,12 @@ namespace vtortola.WebSockets
     {
         public sealed override bool CanWrite => true;
 
+        [NotNull]
         public WebSocketExtensionFlags ExtensionFlags { get; }
 
         protected WebSocketMessageWriteStream()
         {
-            ExtensionFlags = new WebSocketExtensionFlags();
+            this.ExtensionFlags = new WebSocketExtensionFlags();
         }
 
         /// <inheritdoc />

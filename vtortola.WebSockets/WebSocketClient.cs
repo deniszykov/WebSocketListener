@@ -74,12 +74,12 @@ namespace vtortola.WebSockets
         }
 
 
-        public Task<WebSocket> ConnectAsync(Uri address, CancellationToken cancellation = default(CancellationToken))
+        public Task<WebSocket> ConnectAsync([NotNull] Uri address, CancellationToken cancellation = default(CancellationToken))
         {
             return this.ConnectAsync(address, null, cancellation);
         }
 
-        public async Task<WebSocket> ConnectAsync(Uri address, Headers<RequestHeader> requestHeaders = null, CancellationToken cancellation = default(CancellationToken))
+        public async Task<WebSocket> ConnectAsync([NotNull] Uri address, Headers<RequestHeader> requestHeaders = null, CancellationToken cancellation = default(CancellationToken))
         {
             try
             {

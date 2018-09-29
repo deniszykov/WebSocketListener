@@ -1,15 +1,13 @@
-﻿using System;
+using System;
 using System.Threading;
+using JetBrains.Annotations;
 
 namespace vtortola.WebSockets
 {
     internal static class SafeEnd
     {
-        public static void Dispose<T>(T disposable, ILogger log = null) where T : IDisposable
+        public static void Dispose<T>([CanBeNull] T disposable, ILogger log = null) where T : class, IDisposable
         {
-            if (disposable == null)
-                return;
-
             if (log == null)
             {
 #if DEBUG
@@ -21,7 +19,7 @@ namespace vtortola.WebSockets
 
             try
             {
-                disposable.Dispose();
+                disposable?.Dispose();
             }
             catch (Exception disposeError)
             {
