@@ -3,17 +3,24 @@ using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Threading;
+using JetBrains.Annotations;
 using vtortola.WebSockets.Transports;
 
 namespace vtortola.WebSockets
 {
+    [PublicAPI]
     public sealed class WebSocketListenerOptions
     {
         public const int DEFAULT_SEND_BUFFER_SIZE = 8 * 1024;
         public static readonly string[] NoSubProtocols = new string[0];
 
+        [NotNull]
         public WebSocketTransportCollection Transports { get; private set; }
+
+        [NotNull]
         public WebSocketFactoryCollection Standards { get; private set; }
+
+        [NotNull]
         public WebSocketConnectionExtensionCollection ConnectionExtensions { get; private set; }
 
         public TimeSpan PingTimeout { get; set; }
