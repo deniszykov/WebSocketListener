@@ -66,7 +66,6 @@ namespace vtortola.WebSockets.Transports.Sockets
 #if DEBUG
                 System.Diagnostics.Debug.WriteLine($"An error occurred while trying to get '{nameof(socket.RemoteEndPoint)}' property of established connection." + getRemoteEndPointError.Unwrap());
 #endif
-
                 this.RemoteEndPoint = BrokenEndPoint;
             }
 

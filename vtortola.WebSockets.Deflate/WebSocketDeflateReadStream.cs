@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace vtortola.WebSockets.Deflate
 {
@@ -14,7 +15,7 @@ namespace vtortola.WebSockets.Deflate
         public override WebSocketMessageType MessageType => _inner.MessageType;
         public override WebSocketExtensionFlags Flags => _inner.Flags;
 
-        public WebSocketDeflateReadStream(WebSocketMessageReadStream inner)
+        public WebSocketDeflateReadStream([NotNull] WebSocketMessageReadStream inner)
         {
             if (inner == null) throw new ArgumentNullException(nameof(inner));
 
