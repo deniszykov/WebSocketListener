@@ -1,12 +1,15 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
+using JetBrains.Annotations;
 using vtortola.WebSockets.Transports;
 
 namespace vtortola.WebSockets
 {
     public interface IWebSocketConnectionExtension
     {
-        Task<NetworkConnection> ExtendConnectionAsync(NetworkConnection networkConnection);
+        [ItemNotNull, NotNull]
+        Task<NetworkConnection> ExtendConnectionAsync([NotNull] NetworkConnection networkConnection);
 
+        [NotNull]
         IWebSocketConnectionExtension Clone();
     }
 }

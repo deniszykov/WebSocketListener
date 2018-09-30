@@ -1,9 +1,11 @@
-﻿using vtortola.WebSockets.Transports;
+using JetBrains.Annotations;
+using vtortola.WebSockets.Transports;
 
 namespace vtortola.WebSockets
 {
+    [PublicAPI]
     public interface IHttpFallback
     {
-        void Post(IHttpRequest request, NetworkConnection networkConnection);
+        void Post([NotNull] IHttpRequest request, [NotNull] NetworkConnection networkConnection);
     }
 }

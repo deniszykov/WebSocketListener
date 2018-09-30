@@ -1,10 +1,11 @@
-﻿/*
+/*
 	Copyright (c) 2017 Denis Zykov
 	License: https://opensource.org/licenses/MIT
 */
 using System;
 using System.Collections.Concurrent;
 using System.Threading;
+using JetBrains.Annotations;
 
 #pragma warning disable 420
 
@@ -21,7 +22,7 @@ namespace vtortola.WebSockets.Tools
         public readonly Action<T> ReturnFunction;
         public readonly Func<T> TakeFunction;
 
-        public ObjectPool(Func<T> constructor, int poolSizeLimit = 1000)
+        public ObjectPool([NotNull] Func<T> constructor, int poolSizeLimit = 1000)
         {
             if (constructor == null) throw new ArgumentNullException(nameof(constructor), "constructor != null");
             if (poolSizeLimit <= 0) throw new ArgumentOutOfRangeException(nameof(poolSizeLimit), "poolLimit > 0");

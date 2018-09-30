@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using vtortola.WebSockets.Http;
 using vtortola.WebSockets.Transports;
 
@@ -20,8 +21,8 @@ namespace vtortola.WebSockets.Rfc6455
         public override bool IsConnected => this.Connection.IsConnected;
         public override TimeSpan Latency => this.Connection.Latency;
         public override string SubProtocol { get; }
-        
-        public WebSocketRfc6455(NetworkConnection networkConnection, WebSocketListenerOptions options, WebSocketHttpRequest httpRequest, WebSocketHttpResponse httpResponse, IReadOnlyList<IWebSocketMessageExtensionContext> extensions)
+
+        public WebSocketRfc6455([NotNull] NetworkConnection networkConnection, [NotNull] WebSocketListenerOptions options, [NotNull] WebSocketHttpRequest httpRequest, [NotNull] WebSocketHttpResponse httpResponse, [NotNull] IReadOnlyList<IWebSocketMessageExtensionContext> extensions)
             : base(httpRequest, httpResponse)
         {
             if (networkConnection == null) throw new ArgumentNullException(nameof(networkConnection));

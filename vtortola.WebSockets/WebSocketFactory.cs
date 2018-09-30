@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using vtortola.WebSockets.Transports;
 
 namespace vtortola.WebSockets
 {
+    [PublicAPI]
     public abstract class WebSocketFactory
     {
         public abstract short Version { get; }

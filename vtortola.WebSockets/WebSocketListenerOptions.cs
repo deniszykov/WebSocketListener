@@ -3,17 +3,24 @@ using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Threading;
+using JetBrains.Annotations;
 using vtortola.WebSockets.Transports;
 
 namespace vtortola.WebSockets
 {
+    [PublicAPI]
     public sealed class WebSocketListenerOptions
     {
         public const int DEFAULT_SEND_BUFFER_SIZE = 8 * 1024;
         public static readonly string[] NoSubProtocols = new string[0];
 
+        [NotNull]
         public WebSocketTransportCollection Transports { get; private set; }
+
+        [NotNull]
         public WebSocketFactoryCollection Standards { get; private set; }
+
+        [NotNull]
         public WebSocketConnectionExtensionCollection ConnectionExtensions { get; private set; }
 
         public TimeSpan PingTimeout { get; set; }
@@ -63,19 +70,24 @@ namespace vtortola.WebSockets
                 this.PingTimeout = TimeSpan.FromSeconds(1);
 
             if (this.NegotiationQueueCapacity < 0)
-                throw new WebSocketException($"{nameof(this.NegotiationQueueCapacity)} must be 0 or more.");
+                throw new WebSocketException($"{nameof(this.NegotiationQueueCapacity)} must be 0 or more. Actual value: {this.NegotiationQueueCapacity}");
 
             if (this.ParallelNegotiations < 1)
-                throw new WebSocketException($"{nameof(this.ParallelNegotiations)} cannot be less than 1.");
+                throw new WebSocketException($"{nameof(this.ParallelNegotiations)} cannot be less than 1. Actual value: {this.ParallelNegotiations}");
 
             if (this.NegotiationTimeout == TimeSpan.Zero)
                 this.NegotiationTimeout = Timeout.InfiniteTimeSpan;
 
             if (this.SendBufferSize < 1024)
-                throw new WebSocketException($"{nameof(this.SendBufferSize)} must be bigger than 1024.");
+                throw new WebSocketException($"{nameof(this.SendBufferSize)} must be bigger than 1024. Actual value: {this.SendBufferSize}");
 
             if (this.BufferManager != null && this.SendBufferSize < this.BufferManager.LargeBufferSize)
-                throw new WebSocketException($"{this.BufferManager}.{this.BufferManager.LargeBufferSize} must be bigger or equals to {nameof(this.SendBufferSize)}.");
+            {
+                var sendBufferSizeName = nameof(this.SendBufferSize);
+
+                throw new WebSocketException(
+                    $"{this.BufferManager}.{this.BufferManager.LargeBufferSize} must be bigger or equals to {sendBufferSizeName}. Actual value of {sendBufferSizeName}: {this.SendBufferSize}");
+            }
 
             if (this.Logger == null)
                 throw new WebSocketException($"{this.Logger} should be set. You can use {nameof(NullLogger)}.{nameof(NullLogger.Instance)} to disable logging.");

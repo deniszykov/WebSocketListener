@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Runtime.ExceptionServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using JetBrains.Annotations;
 using vtortola.WebSockets.Http;
 
 namespace vtortola.WebSockets
@@ -16,6 +17,8 @@ namespace vtortola.WebSockets
         private bool _invalidated;
 
         public readonly long Id;
+
+        [NotNull]
         public readonly WebSocketHttpRequest Request;
         public readonly WebSocketHttpResponse Response;
         public readonly List<IWebSocketMessageExtensionContext> NegotiatedMessageExtensions;
@@ -43,7 +46,7 @@ namespace vtortola.WebSockets
             set { _invalidated = !value; }
         }
 
-        public WebSocketHandshake(WebSocketHttpRequest request)
+        public WebSocketHandshake([NotNull] WebSocketHttpRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
 

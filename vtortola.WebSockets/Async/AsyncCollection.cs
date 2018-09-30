@@ -16,9 +16,9 @@ namespace vtortola.WebSockets.Async
     {
         private static readonly ItemT[] EmptyList = new ItemT[0];
 
-        public const int UNBOUND = int.MaxValue;
-        public const string DEFAULT_PARALLEL_TAKE_ERROR_MESSAGE = "Parallel 'TakeAsync' is not allowed.";
-        public const string DEFAULT_CLOSED_ERROR_MESSAGE = "Collection is closed and can't accept or give new items.";
+        protected const int UNBOUND = int.MaxValue;
+        private const string DEFAULT_PARALLEL_TAKE_ERROR_MESSAGE = "Parallel 'TakeAsync' is not allowed.";
+        private const string DEFAULT_CLOSED_ERROR_MESSAGE = "Collection is closed and can't accept or give new items.";
 
         // ReSharper disable StaticMemberInGenericType
         private static readonly Lazy<ExceptionDispatchInfo> DefaultCanceledError;
@@ -36,7 +36,6 @@ namespace vtortola.WebSockets.Async
         private volatile ExceptionDispatchInfo closeError;
         private int sendCounter;
 
-        public int BoundedCapacity => this.boundedCapacity;
         public int Count => this.count;
         public bool IsClosed => this.closeError != null;
         public bool IsEmpty => this.emptyCheck(this.innerCollection) || this.IsClosed;

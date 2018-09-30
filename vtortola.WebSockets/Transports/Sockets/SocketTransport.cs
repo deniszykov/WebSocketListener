@@ -71,7 +71,7 @@ namespace vtortola.WebSockets.Transports.Sockets
                     throw new WebSocketException($"Failed to open socket to '{address}' due error '{socketAsyncEventArgs.SocketError}'.",
                         new SocketException((int)socketAsyncEventArgs.SocketError));
 
-                var connection = new SocketConnection(socket, remoteEndPoint);
+                var connection = new SocketConnection(socket);
                 socket = null;
                 return connection;
             }

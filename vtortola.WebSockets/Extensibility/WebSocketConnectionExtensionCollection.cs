@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Copyright (c) 2017 Denis Zykov
 	License: https://opensource.org/licenses/MIT
 */
@@ -9,9 +9,11 @@ using System.Net.Security;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
+using JetBrains.Annotations;
 
 namespace vtortola.WebSockets
 {
+    [PublicAPI]
     public sealed class WebSocketConnectionExtensionCollection : IReadOnlyCollection<IWebSocketConnectionExtension>
     {
         private readonly List<IWebSocketConnectionExtension> extensions;

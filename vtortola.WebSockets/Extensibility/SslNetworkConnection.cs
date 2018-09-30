@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Security;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using vtortola.WebSockets.Transports;
 
 namespace vtortola.WebSockets.Extensibility
@@ -19,7 +20,7 @@ namespace vtortola.WebSockets.Extensibility
         /// <inheritdoc />
         public override EndPoint RemoteEndPoint => this.UnderlyingConnection.RemoteEndPoint;
 
-        public SslNetworkConnection(SslStream sslStream, NetworkConnection underlyingConnection)
+        public SslNetworkConnection([NotNull] SslStream sslStream, [NotNull] NetworkConnection underlyingConnection)
         {
             if (sslStream == null) throw new ArgumentNullException(nameof(sslStream));
             if (underlyingConnection == null) throw new ArgumentNullException(nameof(underlyingConnection));

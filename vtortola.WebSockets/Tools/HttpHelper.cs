@@ -1,10 +1,11 @@
-﻿/*
+/*
 	Copyright (c) 2017 Denis Zykov
 	License: https://opensource.org/licenses/MIT
 */
 using System;
 using System.Globalization;
 using System.Net;
+using JetBrains.Annotations;
 
 namespace vtortola.WebSockets.Tools
 {
@@ -13,7 +14,7 @@ namespace vtortola.WebSockets.Tools
         public static readonly string WebSocketHttp10Version = "HTTP/1.0";
         public static readonly string WebSocketHttp11Version = "HTTP/1.1";
 
-        public static bool TryParseHttpResponse(string responseLine, out HttpStatusCode statusCode, out string statusCodeDescription)
+        public static bool TryParseHttpResponse([NotNull] string responseLine, out HttpStatusCode statusCode, out string statusCodeDescription)
         {
             if (responseLine == null) throw new ArgumentNullException(nameof(responseLine));
 
