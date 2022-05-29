@@ -263,6 +263,17 @@ namespace vtortola.WebSockets
                 writer.Write(handshake.Response.Headers[ResponseHeader.WebSocketProtocol]);
             }
 
+            //Write additional headers to the handshake
+            foreach (var header in handshake.Response.Headers)
+            {
+                var headerName = header.Key;
+                if (headerName.Equals("Sec-WebSocket-Protocol") || headerName.Equals("Upgrade")
+                    || headerName.Equals("Connection") || headerName.Equals("Set-Cookie") || headerName.Equals("Sec-WebSocket-Accept"))
+                    continue;
+                writer.Write("\r\n{0}: ", headerName);                
+                writer.Write(handshake.Response.Headers[headerName]);
+            }
+
             WriteHandshakeCookies(handshake, writer);
 
             writer.Write("\r\n\r\n");
