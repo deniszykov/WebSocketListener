@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net45;netstandard1.3</TargetFrameworks>
+        <TargetFrameworks>net45;netstandard1.3;netstandard2.0</TargetFrameworks>
         <Description>http://vtortola.github.io/WebSocketListener</Description>
         <Company>vtortola</Company>
         <Product>vtortola.WebSockets.Rfc6455</Product>
@@ -22,7 +22,7 @@
         <None Include="..\WebSocketListener.snk" Link="WebSocketListener.snk" />
     </ItemGroup>
 
-    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' OR '$(TargetFramework)' == 'netstandard2.0' ">
         <PackageReference Include="System.Collections" Version="4.3.0" />
         <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
         <PackageReference Include="System.Reflection" Version="4.3.0" />
@@ -31,11 +31,8 @@
         <PackageReference Include="System.Net.NameResolution" Version="4.3.0" />
     </ItemGroup>
 
-    <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' OR '$(TargetFramework)' == 'netstandard2.0' ">
         <DefineConstants>$(DefineConstants);NETSTANDARD;NAMED_PIPES_DISABLE;THREADABORTDUMMY</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
-        <DefineConstants>$(DefineConstants);UAP;NAMED_PIPES_DISABLE;THREADABORTDUMMY</DefineConstants>
     </PropertyGroup>
 </Project>
 
