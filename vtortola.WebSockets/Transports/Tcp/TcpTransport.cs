@@ -14,8 +14,8 @@ namespace vtortola.WebSockets.Transports.Tcp
 {
     public sealed class TcpTransport : SocketTransport
     {
-        private const int DEFAULT_PORT = 80;
-        private const int DEFAULT_SECURE_PORT = 443;
+        private const int DEFAULT_HTTP_PORT = 80;
+        private const int DEFAULT_SECURE_HTTP_PORT = 443;
 
         public const int DEFAULT_SEND_BUFFER_SIZE = 1024;
         public const int DEFAULT_RECEIVE_BUFFER_SIZE = 1024;
@@ -51,9 +51,14 @@ namespace vtortola.WebSockets.Transports.Tcp
             if (address == null) throw new ArgumentNullException(nameof(address));
             if (options == null) throw new ArgumentNullException(nameof(options));
 
-            var isSecure = string.Equals(address.Scheme, "wss", StringComparison.OrdinalIgnoreCase);
-            var defaultPort = isSecure ? DEFAULT_SECURE_PORT : DEFAULT_PORT;
-            var port = address.Port <= 0 ? defaultPort : address.Port;
+            var isSecureWebsocket = string.Equals(address.Scheme, "wss", StringComparison.OrdinalIgnoreCase);
+            var isRawTcp = string.Equals(address.Scheme, "tcp", StringComparison.OrdinalIgnoreCase);
+            var defaultWebsocketPort = isSecureWebsocket ? DEFAULT_SECURE_HTTP_PORT : DEFAULT_HTTP_PORT;
+            var port = address.Port;
+            if (port <= 0 && !isRawTcp)
+            {
+                port = defaultWebsocketPort;
+            }
             var endPoints = default(EndPoint[]);
             var ipAddress = default(IPAddress);
             if (IPAddress.TryParse(address.DnsSafeHost, out ipAddress))
@@ -83,7 +88,7 @@ namespace vtortola.WebSockets.Transports.Tcp
 
             var remoteIpAddress = default(IPAddress);
             var isSecure = this.ShouldUseSsl(address);
-            var port = address.Port <= 0 ? (isSecure ? DEFAULT_SECURE_PORT : DEFAULT_PORT) : address.Port;
+            var port = address.Port <= 0 ? (isSecure ? DEFAULT_SECURE_HTTP_PORT : DEFAULT_HTTP_PORT) : address.Port;
             if (IPAddress.TryParse(address.DnsSafeHost, out remoteIpAddress))
             {
                 return new IPEndPoint(remoteIpAddress, port);
