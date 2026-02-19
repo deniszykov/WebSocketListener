@@ -7,7 +7,7 @@
 https://github.com/deniszykov/WebSocketListener</Description>
 		<Company>deniszykov</Company>
 		<Product>deniszykov.WebSocketListener</Product>
-		<Version>4.2.16</Version>
+		<Version>4.2.17</Version>
 		<Authors>Valeriano Tortola, Denis Zykov</Authors>
 		<PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
 		<PackageProjectUrl>https://github.com/deniszykov/WebSocketListener</PackageProjectUrl>
@@ -16,108 +16,112 @@ https://github.com/deniszykov/WebSocketListener</Description>
 		<PackageTags>websockets HTML5 realtime streaming sockets server client async asynchronous</PackageTags>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>..\WebSocketListener.snk</AssemblyOriginatorKeyFile>		
-		<PackageReleaseNotes>v.4.2.16
-@animehunter refactored WebSocketHandshaker to support async IO operation
+		<PackageReleaseNotes>
+            v4.2.17
+            added support for specifying a zero port (OS selectable) for the tcp:// scheme.
 
-v.4.2.15
-fixed BufferManager.CreateBufferManager should accept pool size in bytes instead of items.
-fixed misleading error message when BufferManager and SendBuffer is not set properly.
+            v.4.2.16
+            @animehunter refactored WebSocketHandshaker to support async IO operation
 
-
-v.4.2.14
-fixed connection close reason parsing and hung(and timeout) after receiving close frame from client.
-
-v.4.2.11
-added close reply if remote party is requesting connection close.
-
-v.4.2.10
-fixed crash while debug logging Unix Domain Socket connection in `AcceptSocketAsConnection` method.
-added additional checks for errord Socket.RemoteEndPoint and Socket.LocalEndPoint, now they produces 'WebSocketHttpRequest.NoAddress'
-
-v.4.2.9
-reverted gzip per-message compression back to original code
-added WSClient gzip per-message compression negotiation
-
-v.4.2.8
-fix LocalEndPoint value on WebSocketConnectionRfc6455
-
-v.4.2.7
-[WS] added WriteAndCloseAsync to WebSocketWriteStream
-[Compression] added custom async inflater/deflater in WS deflate extension. This would allow make inflation/deflation during WriteAsync/ReadAsync
-[WS] replaced extra allocation of Stopwatch with less precise DateTime when measuring negotiation queue
-[WS] add int overload to CloseAsync()
-[WS] Expose client close codes
+            v.4.2.15
+            fixed BufferManager.CreateBufferManager should accept pool size in bytes instead of items.
+            fixed misleading error message when BufferManager and SendBuffer is not set properly.
 
 
-v.4.2.6
-[WS] fixed ping timeout error on busy WebSockets
+            v.4.2.14
+            fixed connection close reason parsing and hung(and timeout) after receiving close frame from client.
 
-v.4.2.5
-fixed error in WSWriterStream.Dispose() method
-reset latency value on WS close or ping timeout
-changed WSConnection Dispose() routine. Now it is not waiting for graceful close.
-changed Ping timeout now cause WSConnection.Dispose instead on CloseAsync
-fixed Ping timeout now properly calculated based on WS activity
+            v.4.2.11
+            added close reply if remote party is requesting connection close.
 
-v.4.2.4
-[Common] replaced all DynamicMethod invocation with slower reflection alternative in case AOT-only runtime.
-[WS] better error message while writing to closed stream
-[Transports] clean-up SocketAsyncEventArgs after each operation to prevent holding GC references on used buffers
+            v.4.2.10
+            fixed crash while debug logging Unix Domain Socket connection in `AcceptSocketAsConnection` method.
+            added additional checks for errord Socket.RemoteEndPoint and Socket.LocalEndPoint, now they produces 'WebSocketHttpRequest.NoAddress'
 
-v.4.2.1
-added DualMode option for TcpTransport
-fixed race condition in WebSocket.Write() (Thanks @fuzzykiller)
+            v.4.2.9
+            reverted gzip per-message compression back to original code
+            added WSClient gzip per-message compression negotiation
 
-v.4.2.0
-stable version
+            v.4.2.8
+            fix LocalEndPoint value on WebSocketConnectionRfc6455
 
-v.4.1.6
-fixed ping queue stop on error
-added in/out buffers for ping/pong to reduce change of collision if both side pinging
-replaced masking/demasking algorithm with faster unsafe implementation
-added IpProtectionLevel option for tcp transport
-fixed unbserved exception in WSMessageWriteStream.CloseAsync method
+            v.4.2.7
+            [WS] added WriteAndCloseAsync to WebSocketWriteStream
+            [Compression] added custom async inflater/deflater in WS deflate extension. This would allow make inflation/deflation during WriteAsync/ReadAsync
+            [WS] replaced extra allocation of Stopwatch with less precise DateTime when measuring negotiation queue
+            [WS] add int overload to CloseAsync()
+            [WS] Expose client close codes
 
-v.4.1.5
-removed unused code from helpers
-Prevent crash when value contains only empty spaces
 
-v.4.1.4
-added few changes in SendFrameAsync to prevent unobserved exceptions
-added better error message for parallel AcceptWebSocketAsync call
-added better error message when handshake error occurred
+            v.4.2.6
+            [WS] fixed ping timeout error on busy WebSockets
 
-v.4.1.3
-fixed unobserved exception at WebSocketSecureConnectionExtension.ExtendConnectionAsync
+            v.4.2.5
+            fixed error in WSWriterStream.Dispose() method
+            reset latency value on WS close or ping timeout
+            changed WSConnection Dispose() routine. Now it is not waiting for graceful close.
+            changed Ping timeout now cause WSConnection.Dispose instead on CloseAsync
+            fixed Ping timeout now properly calculated based on WS activity
 
-v.4.1.2
-fixed infinite loop in timed queue (batch-ping related stuff)
+            v.4.2.4
+            [Common] replaced all DynamicMethod invocation with slower reflection alternative in case AOT-only runtime.
+            [WS] better error message while writing to closed stream
+            [Transports] clean-up SocketAsyncEventArgs after each operation to prevent holding GC references on used buffers
 
-v.4.1.1
-fixed bug in BandwidthSaving ping strategy
+            v.4.2.1
+            added DualMode option for TcpTransport
+            fixed race condition in WebSocket.Write() (Thanks @fuzzykiller)
 
-v.4.1.0
-added request header to WebSocketClient.ConnectAsync signature
-PingQueue list re-use
-Echo refactoring (perf. counters removed)
-JetBrains.Annotations is now internal
+            v.4.2.0
+            stable version
 
-v4.0.4
-fixed TimedQueue implementation (atomic Int64 reading for 32 bit systems)
-fixed Headers add NameValueCollection implementation to threat header values as not splitted headers
-removed AsyncResultTask and refactored BeginRead/BeginWrite on streams
-updated AsyncQueue implementation
+            v.4.1.6
+            fixed ping queue stop on error
+            added in/out buffers for ping/pong to reduce change of collision if both side pinging
+            replaced masking/demasking algorithm with faster unsafe implementation
+            added IpProtectionLevel option for tcp transport
+            fixed unbserved exception in WSMessageWriteStream.CloseAsync method
 
-v.4.0.3
-added 'Connection:close' header to 'Bad Request' response of WebSocket handshaker
-fixed Unobserved exception because wrong implementation of TaskHelper.IgnoreFault.
-refactored TaskHelper.IgnoreFault and TaskHelper.PropagateResutTo to shortcut on Completed tasks
-fixed ping errors on WebSockets
-fixed TimedQueue impl
-Headers refactoring, added HeaderFlags parameter to headers
-refactored Socket shutdown sequence to prevent 'connection reset by peer' errors 
+            v.4.1.5
+            removed unused code from helpers
+            Prevent crash when value contains only empty spaces
 
-UNIX Domain Sockets are tested on Linux</PackageReleaseNotes>		
+            v.4.1.4
+            added few changes in SendFrameAsync to prevent unobserved exceptions
+            added better error message for parallel AcceptWebSocketAsync call
+            added better error message when handshake error occurred
+
+            v.4.1.3
+            fixed unobserved exception at WebSocketSecureConnectionExtension.ExtendConnectionAsync
+
+            v.4.1.2
+            fixed infinite loop in timed queue (batch-ping related stuff)
+
+            v.4.1.1
+            fixed bug in BandwidthSaving ping strategy
+
+            v.4.1.0
+            added request header to WebSocketClient.ConnectAsync signature
+            PingQueue list re-use
+            Echo refactoring (perf. counters removed)
+            JetBrains.Annotations is now internal
+
+            v4.0.4
+            fixed TimedQueue implementation (atomic Int64 reading for 32 bit systems)
+            fixed Headers add NameValueCollection implementation to threat header values as not splitted headers
+            removed AsyncResultTask and refactored BeginRead/BeginWrite on streams
+            updated AsyncQueue implementation
+
+            v.4.0.3
+            added 'Connection:close' header to 'Bad Request' response of WebSocket handshaker
+            fixed Unobserved exception because wrong implementation of TaskHelper.IgnoreFault.
+            refactored TaskHelper.IgnoreFault and TaskHelper.PropagateResutTo to shortcut on Completed tasks
+            fixed ping errors on WebSockets
+            fixed TimedQueue impl
+            Headers refactoring, added HeaderFlags parameter to headers
+            refactored Socket shutdown sequence to prevent 'connection reset by peer' errors
+
+            UNIX Domain Sockets are tested on Linux</PackageReleaseNotes>		
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
 	<ItemGroup>
