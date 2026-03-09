@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using vtortola.WebSockets.Deflate;
@@ -27,6 +28,17 @@ namespace vtortola.WebSockets.UnitTests
             var webSocketClient = new WebSocketClient(options);
 
             Assert.NotNull(webSocketClient);
+        }
+
+        [Fact]
+        public async Task ListenOnZeroPortTest()
+        {
+            var options = new WebSocketListenerOptions();
+            options.Standards.RegisterRfc6455();
+            var listener = new WebSocketListener(new IPEndPoint(IPAddress.Loopback, port: 0), options);
+            await listener.StartAsync();
+
+            Assert.True(listener.IsStarted);
         }
 
         [Theory]

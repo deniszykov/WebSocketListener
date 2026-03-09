@@ -59,6 +59,11 @@ namespace vtortola.WebSockets.Transports.Tcp
             {
                 port = defaultWebsocketPort;
             }
+            else if (port < 0)
+            {
+                port = 0;
+            }
+
             var endPoints = default(EndPoint[]);
             var ipAddress = default(IPAddress);
             if (IPAddress.TryParse(address.DnsSafeHost, out ipAddress))

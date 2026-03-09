@@ -7,7 +7,7 @@
 https://github.com/deniszykov/WebSocketListener</Description>
 		<Company>deniszykov</Company>
 		<Product>deniszykov.WebSocketListener</Product>
-		<Version>4.2.18</Version>
+		<Version>4.2.19</Version>
 		<Authors>Valeriano Tortola, Denis Zykov</Authors>
 		<PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
 		<PackageProjectUrl>https://github.com/deniszykov/WebSocketListener</PackageProjectUrl>
@@ -17,9 +17,12 @@ https://github.com/deniszykov/WebSocketListener</Description>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>..\WebSocketListener.snk</AssemblyOriginatorKeyFile>		
 		<PackageReleaseNotes>
+            v4.2.19
+            fixed support for listening on zero port.
+            
             v4.2.18
             added netstandard2.0 target
-			
+
             v4.2.17
             added support for specifying a zero port (OS selectable) for the tcp:// scheme.
 
@@ -148,7 +151,7 @@ https://github.com/deniszykov/WebSocketListener</Description>
 		</PackageReference>
 	</ItemGroup>
 
-	<Target Name="Repack" AfterTargets="BuiltProjectOutputGroup" Condition="' $(TargetFramework)'!='' AND '$(GeneratePackageOnBuild)' == 'true' ">
+	<Target Name="Repack" AfterTargets="BuiltProjectOutputGroup" Condition="' $(TargetFramework)'!=''">
 		<GetFrameworkPath>
 			<Output TaskParameter="Path" PropertyName="FrameworkPath" />
 		</GetFrameworkPath>
